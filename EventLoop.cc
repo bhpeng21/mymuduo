@@ -182,6 +182,14 @@ void EventLoop::queueInLoop(Functor cb)
     }
 }
 
+void EventLoop::abortNotInLoopThread()
+{
+//   LOG_FATAL << "EventLoop::abortNotInLoopThread - EventLoop " << this
+//             << " was created in threadId_ = " << threadId_
+//             << ", current thread id = " <<  CurrentThread::tid();
+    LOG_FATAL("EventLoop::abortNotInLoopThread - EventLoop this ptr was wrong");
+}
+
 void EventLoop::handleRead()
 {
   uint64_t one = 1;

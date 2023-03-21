@@ -47,6 +47,9 @@ public:
     void shutdown();
     void setTcpNoDelay(bool on);
 
+    void forceClose();
+    void forceCloseInLoop();
+
     void setConnectionCallback(const ConnectionCallback& cb)
     { connectionCallback_ = cb; }
     void setMessageCallback(const MessageCallback& cb)

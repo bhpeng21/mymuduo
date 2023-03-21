@@ -20,6 +20,7 @@ public:
     : addr_(addr)
     { }
 
+    sa_family_t family() const { return addr_.sin_family; }
     std::string toIp() const;
     std::string toIpPort() const;
     uint16_t toPort() const;

@@ -264,6 +264,26 @@ void TcpConnection::setTcpNoDelay(bool on)
     socket_->setTcpNoDelay(on);
 }
 
+void TcpConnection::forceClose()
+{
+  // FIXME: use compare and swap
+  if (state_ == kConnected || state_ == kDisconnecting)
+  {
+    setState(kDisconnecting);
+    loop_->queueInLoop(std::bind(&TcpConnection::forceCloseInLoop, shared_from_this()));
+  }
+}
+
+void TcpConnection::forceCloseInLoop()
+{
+  loop_->assertInLoopThread();
+  if (state_ == kConnected || state_ == kDisconnecting)
+  {
+    // as if we received 0 byte in handleRead();
+    handleClose();
+  }
+}
+
 void TcpConnection::shutdownInLoop()
 {
     if(!channel_->isWriting())  // 说明当前outputBuffer中的数据已经全部发送完成
