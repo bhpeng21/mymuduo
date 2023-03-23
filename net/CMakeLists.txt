@@ -27,14 +27,14 @@ set(net_SRCS
   TimerQueue.cc
   )
 
-add_library(muduo_net ${net_SRCS})
-target_link_libraries(muduo_net muduo_base)
+add_library(mymuduo_net ${net_SRCS})
+target_link_libraries(mymuduo_net mymuduo_base)
 
 #add_library(muduo_net_cpp11 ${net_SRCS})
 #target_link_libraries(muduo_net_cpp11 muduo_base_cpp11)
 #set_target_properties(muduo_net_cpp11 PROPERTIES COMPILE_FLAGS "-std=c++0x")
 
-install(TARGETS muduo_net DESTINATION lib)
+install(TARGETS mymuduo_net DESTINATION lib)
 #install(TARGETS muduo_net_cpp11 DESTINATION lib)
 
 set(HEADERS
@@ -51,19 +51,19 @@ set(HEADERS
   TcpServer.h
   TimerId.h
   )
-install(FILES ${HEADERS} DESTINATION include/muduo/net)
+install(FILES ${HEADERS} DESTINATION include/mymuduo/net)
 
-add_subdirectory(http)
-add_subdirectory(inspect)
+#add_subdirectory(http)
+#add_subdirectory(inspect)
 
 if(NOT CMAKE_BUILD_NO_EXAMPLES)
   add_subdirectory(tests)
 endif()
 
-if(PROTOBUF_FOUND)
-  add_subdirectory(protobuf)
-  add_subdirectory(protorpc)
-else()
-  add_subdirectory(protobuf EXCLUDE_FROM_ALL)
-  add_subdirectory(protorpc EXCLUDE_FROM_ALL)
-endif()
+# if(PROTOBUF_FOUND)
+#   add_subdirectory(protobuf)
+#   add_subdirectory(protorpc)
+# else()
+#   add_subdirectory(protobuf EXCLUDE_FROM_ALL)
+#   add_subdirectory(protorpc EXCLUDE_FROM_ALL)
+# endif()
