@@ -1,30 +1,30 @@
 // TcpClient destructs when TcpConnection is connected but unique.
 
-#include <muduo/base/Logging.h>
-#include <muduo/base/Thread.h>
-#include <muduo/net/EventLoop.h>
-#include <muduo/net/TcpClient.h>
+#include "../../base/Logging.h"
+#include "../../base/Thread.h"
+#include "../EventLoop.h"
+#include "../TcpClient.h"
 
-using namespace muduo;
-using namespace muduo::net;
+using namespace mymuduo;
+using namespace mymuduo::net;
 
 void threadFunc(EventLoop* loop)
 {
-  InetAddress serverAddr("127.0.0.1", 1234); // should succeed
-  TcpClient client(loop, serverAddr, "TcpClient");
-  client.connect();
+    InetAddress serverAddr("127.0.0.1", 1234); // should succeed
+    TcpClient client(loop, serverAddr, "TcpClient");
+    client.connect();
 
-  CurrentThread::sleepUsec(1000*1000);
-  // client destructs when connected.
+    CurrentThread::sleepUsec(1000*1000);
+    // client destructs when connected.
 }
 
 int main(int argc, char* argv[])
 {
-  Logger::setLogLevel(Logger::DEBUG);
+    Logger::setLogLevel(Logger::DEBUG);
 
-  EventLoop loop;
-  loop.runAfter(3.0, std::bind(&EventLoop::quit, &loop));
-  Thread thr(std::bind(threadFunc, &loop));
-  thr.start();
-  loop.loop();
+    EventLoop loop;
+    loop.runAfter(3.0, std::bind(&EventLoop::quit, &loop));
+    Thread thr(std::bind(threadFunc, &loop));
+    thr.start();
+    loop.loop();
 }

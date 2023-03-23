@@ -1,24 +1,24 @@
 // TcpClient destructs in a different thread.
 
-#include <muduo/base/Logging.h>
-#include <muduo/net/EventLoopThread.h>
-#include <muduo/net/TcpClient.h>
+#include "../../base/Logging.h"
+#include "../EventLoopThread.h"
+#include "../TcpClient.h"
 
-using namespace muduo;
-using namespace muduo::net;
+using namespace mymuduo;
+using namespace mymuduo::net;
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-  Logger::setLogLevel(Logger::DEBUG);
+    Logger::setLogLevel(Logger::DEBUG);
 
-  EventLoopThread loopThread;
-  {
-  InetAddress serverAddr("127.0.0.1", 1234); // should succeed
-  TcpClient client(loopThread.startLoop(), serverAddr, "TcpClient");
-  client.connect();
-  CurrentThread::sleepUsec(500 * 1000);  // wait for connect
-  client.disconnect();
-  }
+    EventLoopThread loopThread;
+    {
+        InetAddress serverAddr("127.0.0.1", 1234); // should succeed
+        TcpClient client(loopThread.startLoop(), serverAddr, "TcpClient");
+        client.connect();
+        CurrentThread::sleepUsec(500 * 1000); // wait for connect
+        client.disconnect();
+    }
 
-  CurrentThread::sleepUsec(1000 * 1000);
+    CurrentThread::sleepUsec(1000 * 1000);
 }
